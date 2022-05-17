@@ -1,0 +1,56 @@
+<Style TargetType="Button">
+            <Setter Property="Width" Value="auto" ></Setter>
+            <Setter Property="Height" Value="45" ></Setter>
+            <Setter Property="FontWeight" Value="ExtraBold"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="20"
+                                Background="{TemplateBinding Background}">
+
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+         <Style x:Key="NeumorphismStyle_light" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Grid.Effect>
+                                    <WPF_Neumorphism_Plus:Neumorphism_Plus_Shader BorderRadius="25" BlurRadius="5" OffsetX="7" OffsetY="5" SpreadRadius="2"
+                                            PrimaryColor="Silver" SecondaryColor="WhiteSmoke"/>
+                                </Grid.Effect>
+                                <Rectangle Fill="{TemplateBinding Background}" RadiusX="25" RadiusY="25"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Grid.Effect>
+                                        <WPF_Neumorphism_Plus:Neumorphism_Plus_Shader BorderRadius="25" BlurRadius="7" OffsetX="5" OffsetY="3" SpreadRadius="0"
+                                            PrimaryColor="Silver" SecondaryColor="WhiteSmoke" Inset="1"/>
+                                    </Grid.Effect>
+                                    <Rectangle Fill="{TemplateBinding Background}" RadiusX="25" RadiusY="25"/>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+                
+        </Style>

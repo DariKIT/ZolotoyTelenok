@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище ZTDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6013: Первичный ключ в таблице или представлении "ZTDB.dbo.Журнал операции" не определен, его не удалось вывести. Эта таблица или представление исключены. Чтобы использовать сущность, необходимо проверить схему, добавить правильные ключи и раскомментировать ее.
+        <EntityType Name="Журнал операции">
+          <Property Name="ID" Type="int" />
+          <Property Name="ID_Внешнего_объекта" Type="int" />
+          <Property Name="Операция" Type="nvarchar" MaxLength="50" />
+          <Property Name="Дата" Type="datetime" />
+        </EntityType>-->
+        <EntityType Name="Запись">
+          <Key>
+            <PropertyRef Name="ИД_Записи" />
+          </Key>
+          <Property Name="ИД_Записи" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ИД_Машины" Type="int" Nullable="false" />
+          <Property Name="ИД_Работнка" Type="int" Nullable="false" />
+          <Property Name="ИД_Услуги" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Клиент">
+          <Key>
+            <PropertyRef Name="ИД_Клиента" />
+          </Key>
+          <Property Name="ИД_Клиента" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Номер_авто" Type="nchar" MaxLength="6" />
+        </EntityType>
+        <EntityType Name="Машина">
+          <Key>
+            <PropertyRef Name="ИД_Машины" />
+          </Key>
+          <Property Name="ИД_Машины" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Марка" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Модель" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Класс" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Работник">
+          <Key>
+            <PropertyRef Name="ИД_Работника" />
+          </Key>
+          <Property Name="ИД_Работника" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="Имя" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="Отчество" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="Телефон" Type="nchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Услуги">
+          <Key>
+            <PropertyRef Name="ИД_Услуги" />
+          </Key>
+          <Property Name="ИД_Услуги" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Наименование" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Описание" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Цена" Type="money" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Запись_Машина">
+          <End Role="Машина" Type="Self.Машина" Multiplicity="1" />
+          <End Role="Запись" Type="Self.Запись" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Машина">
+              <PropertyRef Name="ИД_Машины" />
+            </Principal>
+            <Dependent Role="Запись">
+              <PropertyRef Name="ИД_Машины" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Запись_Работник">
+          <End Role="Работник" Type="Self.Работник" Multiplicity="1" />
+          <End Role="Запись" Type="Self.Запись" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Работник">
+              <PropertyRef Name="ИД_Работника" />
+            </Principal>
+            <Dependent Role="Запись">
+              <PropertyRef Name="ИД_Работнка" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Запись_Услуги">
+          <End Role="Услуги" Type="Self.Услуги" Multiplicity="1" />
+          <End Role="Запись" Type="Self.Запись" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Услуги">
+              <PropertyRef Name="ИД_Услуги" />
+            </Principal>
+            <Dependent Role="Запись">
+              <PropertyRef Name="ИД_Услуги" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище ZTDBModelContainer">
+          <EntitySet Name="Запись" EntityType="Self.Запись" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Клиент" EntityType="Self.Клиент" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Машина" EntityType="Self.Машина" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Работник" EntityType="Self.Работник" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Услуги" EntityType="Self.Услуги" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Запись_Машина" Association="Self.FK_Запись_Машина">
+            <End Role="Машина" EntitySet="Машина" />
+            <End Role="Запись" EntitySet="Запись" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Запись_Работник" Association="Self.FK_Запись_Работник">
+            <End Role="Работник" EntitySet="Работник" />
+            <End Role="Запись" EntitySet="Запись" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Запись_Услуги" Association="Self.FK_Запись_Услуги">
+            <End Role="Услуги" EntitySet="Услуги" />
+            <End Role="Запись" EntitySet="Запись" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ZTDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Запись">
+          <Key>
+            <PropertyRef Name="ИД_Записи" />
+          </Key>
+          <Property Name="ИД_Записи" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ИД_Машины" Type="Int32" Nullable="false" />
+          <Property Name="ИД_Работнка" Type="Int32" Nullable="false" />
+          <Property Name="ИД_Услуги" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Машина" Relationship="Self.FK_Запись_Машина" FromRole="Запись" ToRole="Машина" />
+          <NavigationProperty Name="Работник" Relationship="Self.FK_Запись_Работник" FromRole="Запись" ToRole="Работник" />
+          <NavigationProperty Name="Услуги" Relationship="Self.FK_Запись_Услуги" FromRole="Запись" ToRole="Услуги" />
+        </EntityType>
+        <EntityType Name="Клиент">
+          <Key>
+            <PropertyRef Name="ИД_Клиента" />
+          </Key>
+          <Property Name="ИД_Клиента" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Номер_авто" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Машина">
+          <Key>
+            <PropertyRef Name="ИД_Машины" />
+          </Key>
+          <Property Name="ИД_Машины" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Марка" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Модель" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Класс" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Запись" Relationship="Self.FK_Запись_Машина" FromRole="Машина" ToRole="Запись" />
+        </EntityType>
+        <EntityType Name="Работник">
+          <Key>
+            <PropertyRef Name="ИД_Работника" />
+          </Key>
+          <Property Name="ИД_Работника" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Телефон" Type="String" MaxLength="12" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Запись" Relationship="Self.FK_Запись_Работник" FromRole="Работник" ToRole="Запись" />
+        </EntityType>
+        <EntityType Name="Услуги">
+          <Key>
+            <PropertyRef Name="ИД_Услуги" />
+          </Key>
+          <Property Name="ИД_Услуги" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Наименование" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Описание" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Цена" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <NavigationProperty Name="Запись" Relationship="Self.FK_Запись_Услуги" FromRole="Услуги" ToRole="Запись" />
+        </EntityType>
+        <Association Name="FK_Запись_Машина">
+          <End Role="Машина" Type="Self.Машина" Multiplicity="1" />
+          <End Role="Запись" Type="Self.Запись" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Машина">
+              <PropertyRef Name="ИД_Машины" />
+            </Principal>
+            <Dependent Role="Запись">
+              <PropertyRef Name="ИД_Машины" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Запись_Работник">
+          <End Role="Работник" Type="Self.Работник" Multiplicity="1" />
+          <End Role="Запись" Type="Self.Запись" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Работник">
+              <PropertyRef Name="ИД_Работника" />
+            </Principal>
+            <Dependent Role="Запись">
+              <PropertyRef Name="ИД_Работнка" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Запись_Услуги">
+          <End Role="Услуги" Type="Self.Услуги" Multiplicity="1" />
+          <End Role="Запись" Type="Self.Запись" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Услуги">
+              <PropertyRef Name="ИД_Услуги" />
+            </Principal>
+            <Dependent Role="Запись">
+              <PropertyRef Name="ИД_Услуги" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ZTDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Запись" EntityType="Self.Запись" />
+          <EntitySet Name="Клиент" EntityType="Self.Клиент" />
+          <EntitySet Name="Машина" EntityType="Self.Машина" />
+          <EntitySet Name="Работник" EntityType="Self.Работник" />
+          <EntitySet Name="Услуги" EntityType="Self.Услуги" />
+          <AssociationSet Name="FK_Запись_Машина" Association="Self.FK_Запись_Машина">
+            <End Role="Машина" EntitySet="Машина" />
+            <End Role="Запись" EntitySet="Запись" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Запись_Работник" Association="Self.FK_Запись_Работник">
+            <End Role="Работник" EntitySet="Работник" />
+            <End Role="Запись" EntitySet="Запись" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Запись_Услуги" Association="Self.FK_Запись_Услуги">
+            <End Role="Услуги" EntitySet="Услуги" />
+            <End Role="Запись" EntitySet="Запись" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ZTDBModelContainer" CdmEntityContainer="ZTDBEntities">
+          <EntitySetMapping Name="Запись">
+            <EntityTypeMapping TypeName="ZTDBModel.Запись">
+              <MappingFragment StoreEntitySet="Запись">
+                <ScalarProperty Name="ИД_Записи" ColumnName="ИД_Записи" />
+                <ScalarProperty Name="ИД_Машины" ColumnName="ИД_Машины" />
+                <ScalarProperty Name="ИД_Работнка" ColumnName="ИД_Работнка" />
+                <ScalarProperty Name="ИД_Услуги" ColumnName="ИД_Услуги" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Клиент">
+            <EntityTypeMapping TypeName="ZTDBModel.Клиент">
+              <MappingFragment StoreEntitySet="Клиент">
+                <ScalarProperty Name="ИД_Клиента" ColumnName="ИД_Клиента" />
+                <ScalarProperty Name="Номер_авто" ColumnName="Номер_авто" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Машина">
+            <EntityTypeMapping TypeName="ZTDBModel.Машина">
+              <MappingFragment StoreEntitySet="Машина">
+                <ScalarProperty Name="ИД_Машины" ColumnName="ИД_Машины" />
+                <ScalarProperty Name="Марка" ColumnName="Марка" />
+                <ScalarProperty Name="Модель" ColumnName="Модель" />
+                <ScalarProperty Name="Класс" ColumnName="Класс" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Работник">
+            <EntityTypeMapping TypeName="ZTDBModel.Работник">
+              <MappingFragment StoreEntitySet="Работник">
+                <ScalarProperty Name="ИД_Работника" ColumnName="ИД_Работника" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Услуги">
+            <EntityTypeMapping TypeName="ZTDBModel.Услуги">
+              <MappingFragment StoreEntitySet="Услуги">
+                <ScalarProperty Name="ИД_Услуги" ColumnName="ИД_Услуги" />
+                <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+                <ScalarProperty Name="Описание" ColumnName="Описание" />
+                <ScalarProperty Name="Цена" ColumnName="Цена" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

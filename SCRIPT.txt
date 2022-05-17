@@ -1,0 +1,561 @@
+USE [master]
+GO
+/****** Object:  Database [ZTDB]    Script Date: 04.05.2022 1:35:17 ******/
+CREATE DATABASE [ZTDB]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'ZTDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\ZTDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'ZTDB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\ZTDB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [ZTDB] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [ZTDB].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [ZTDB] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [ZTDB] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [ZTDB] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [ZTDB] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [ZTDB] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [ZTDB] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [ZTDB] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [ZTDB] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [ZTDB] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [ZTDB] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [ZTDB] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [ZTDB] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [ZTDB] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [ZTDB] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [ZTDB] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [ZTDB] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [ZTDB] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [ZTDB] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [ZTDB] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [ZTDB] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [ZTDB] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [ZTDB] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [ZTDB] SET RECOVERY FULL 
+GO
+ALTER DATABASE [ZTDB] SET  MULTI_USER 
+GO
+ALTER DATABASE [ZTDB] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [ZTDB] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [ZTDB] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [ZTDB] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [ZTDB] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [ZTDB] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'ZTDB', N'ON'
+GO
+ALTER DATABASE [ZTDB] SET QUERY_STORE = OFF
+GO
+USE [ZTDB]
+GO
+/****** Object:  Table [dbo].[Услуги]    Script Date: 04.05.2022 1:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Услуги](
+	[ИД_Услуги] [int] IDENTITY(1,1) NOT NULL,
+	[Наименование] [nchar](20) NOT NULL,
+	[Описание] [nvarchar](max) NOT NULL,
+	[Цена] [money] NOT NULL,
+ CONSTRAINT [PK_Услуги] PRIMARY KEY CLUSTERED 
+(
+	[ИД_Услуги] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Запись]    Script Date: 04.05.2022 1:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Запись](
+	[ИД_Записи] [int] IDENTITY(1,1) NOT NULL,
+	[ИД_Машины] [int] NOT NULL,
+	[ИД_Работнка] [int] NOT NULL,
+	[ИД_Услуги] [int] NOT NULL,
+ CONSTRAINT [PK_Запись] PRIMARY KEY CLUSTERED 
+(
+	[ИД_Записи] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Клиент]    Script Date: 04.05.2022 1:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Клиент](
+	[ИД_Клиента] [int] IDENTITY(1,1) NOT NULL,
+	[Номер_авто] [nchar](6) NULL,
+ CONSTRAINT [PK_Клиент] PRIMARY KEY CLUSTERED 
+(
+	[ИД_Клиента] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Работник]    Script Date: 04.05.2022 1:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Работник](
+	[ИД_Работника] [int] IDENTITY(1,1) NOT NULL,
+	[Фамилия] [nchar](15) NOT NULL,
+	[Имя] [nchar](15) NOT NULL,
+	[Отчество] [nchar](15) NOT NULL,
+	[Телефон] [nchar](12) NOT NULL,
+ CONSTRAINT [PK_Работник] PRIMARY KEY CLUSTERED 
+(
+	[ИД_Работника] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Машина]    Script Date: 04.05.2022 1:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Машина](
+	[ИД_Машины] [int] IDENTITY(1,1) NOT NULL,
+	[Марка] [nvarchar](50) NOT NULL,
+	[Модель] [nvarchar](50) NOT NULL,
+	[Класс] [int] NOT NULL,
+ CONSTRAINT [PK_Машина] PRIMARY KEY CLUSTERED 
+(
+	[ИД_Машины] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Журнал операции]    Script Date: 04.05.2022 1:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Журнал операции](
+	[ID] [int] NULL,
+	[ID_Внешнего_объекта] [int] NULL,
+	[Операция] [nvarchar](50) NULL,
+	[Дата] [datetime] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[запись журнала]    Script Date: 04.05.2022 1:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[запись журнала]
+AS
+SELECT        dbo.Запись.ИД_Записи, dbo.Клиент.Номер_авто, dbo.Машина.Марка, dbo.Машина.Модель, dbo.Машина.Класс, dbo.Работник.Фамилия, dbo.Работник.Имя, dbo.Услуги.Наименование, dbo.Услуги.Цена
+FROM            dbo.Клиент INNER JOIN
+                         dbo.Запись ON dbo.Клиент.ИД_Клиента = dbo.Запись.ИД_Клиента INNER JOIN
+                         dbo.Машина ON dbo.Запись.ИД_Машины = dbo.Машина.ИД_Машины INNER JOIN
+                         dbo.Работник ON dbo.Запись.ИД_Работнка = dbo.Работник.ИД_Работника INNER JOIN
+                         dbo.Услуги ON dbo.Запись.ИД_Услуги = dbo.Услуги.ИД_Услуги CROSS JOIN
+                         dbo.[Журнал операции]
+GO
+/****** Object:  View [dbo].[Машины клиентов]    Script Date: 04.05.2022 1:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[Машины клиентов]
+AS
+SELECT        dbo.Клиент.ИД_Клиента, dbo.Клиент.Номер_авто, dbo.Машина.Марка, dbo.Машина.Модель, dbo.Машина.Класс
+FROM            dbo.Клиент INNER JOIN
+                         dbo.Запись ON dbo.Клиент.ИД_Клиента = dbo.Запись.ИД_Клиента INNER JOIN
+                         dbo.Машина ON dbo.Запись.ИД_Машины = dbo.Машина.ИД_Машины INNER JOIN
+                         dbo.Работник ON dbo.Запись.ИД_Работнка = dbo.Работник.ИД_Работника INNER JOIN
+                         dbo.Услуги ON dbo.Запись.ИД_Услуги = dbo.Услуги.ИД_Услуги CROSS JOIN
+                         dbo.[Журнал операции]
+GO
+ALTER TABLE [dbo].[Запись]  WITH CHECK ADD  CONSTRAINT [FK_Запись_Машина] FOREIGN KEY([ИД_Машины])
+REFERENCES [dbo].[Машина] ([ИД_Машины])
+GO
+ALTER TABLE [dbo].[Запись] CHECK CONSTRAINT [FK_Запись_Машина]
+GO
+ALTER TABLE [dbo].[Запись]  WITH CHECK ADD  CONSTRAINT [FK_Запись_Работник] FOREIGN KEY([ИД_Работнка])
+REFERENCES [dbo].[Работник] ([ИД_Работника])
+GO
+ALTER TABLE [dbo].[Запись] CHECK CONSTRAINT [FK_Запись_Работник]
+GO
+ALTER TABLE [dbo].[Запись]  WITH CHECK ADD  CONSTRAINT [FK_Запись_Услуги] FOREIGN KEY([ИД_Услуги])
+REFERENCES [dbo].[Услуги] ([ИД_Услуги])
+GO
+ALTER TABLE [dbo].[Запись] CHECK CONSTRAINT [FK_Запись_Услуги]
+GO
+/****** Object:  StoredProcedure [dbo].[Очистить журнал изменений]    Script Date: 04.05.2022 1:35:19 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Очистить журнал изменений] (@_IdКатегории nvarchar(max))
+AS
+BEGIN
+TRUNCATE TABLE [Журнал операции];
+END
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = -96
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "Журнал операции"
+            Begin Extent = 
+               Top = 6
+               Left = 38
+               Bottom = 136
+               Right = 248
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Запись"
+            Begin Extent = 
+               Top = 6
+               Left = 286
+               Bottom = 136
+               Right = 460
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Клиент"
+            Begin Extent = 
+               Top = 138
+               Left = 38
+               Bottom = 234
+               Right = 212
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Машина"
+            Begin Extent = 
+               Top = 138
+               Left = 250
+               Bottom = 268
+               Right = 424
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Работник"
+            Begin Extent = 
+               Top = 138
+               Left = 462
+               Bottom = 268
+               Right = 636
+            End
+            DisplayFlags = 280
+            TopColumn = 1
+         End
+         Begin Table = "Услуги"
+            Begin Extent = 
+               Top = 234
+               Left = 38
+               Bottom = 364
+               Right = 212
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+        ' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'запись журнала'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane2', @value=N' Alias = 900
+         Table = 1170
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1350
+         SortOrder = 1410
+         GroupBy = 1350
+         Filter = 1350
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'запись журнала'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=2 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'запись журнала'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "Журнал операции"
+            Begin Extent = 
+               Top = 6
+               Left = 38
+               Bottom = 136
+               Right = 248
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Запись"
+            Begin Extent = 
+               Top = 6
+               Left = 286
+               Bottom = 136
+               Right = 460
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Клиент"
+            Begin Extent = 
+               Top = 138
+               Left = 38
+               Bottom = 234
+               Right = 212
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Машина"
+            Begin Extent = 
+               Top = 138
+               Left = 250
+               Bottom = 268
+               Right = 424
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Работник"
+            Begin Extent = 
+               Top = 138
+               Left = 462
+               Bottom = 268
+               Right = 636
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "Услуги"
+            Begin Extent = 
+               Top = 234
+               Left = 38
+               Bottom = 364
+               Right = 212
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         A' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'Машины клиентов'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane2', @value=N'lias = 900
+         Table = 1170
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1350
+         SortOrder = 1410
+         GroupBy = 1350
+         Filter = 1350
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'Машины клиентов'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=2 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'Машины клиентов'
+GO
+USE [master]
+GO
+ALTER DATABASE [ZTDB] SET  READ_WRITE 
+GO
