@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZolotoyTelenok"
         mc:Ignorable="d"
-        WindowState="Maximized"
-        Title="Золотой Теленок" Width="1000">
+        Title="Золотой Теленок" WindowStartupLocation="CenterScreen" Width="1000" Height="1000">
     <Grid Background="#FFE3E3E3">
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"></Frame>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="47*"/>
+            <ColumnDefinition Width="153*"/>
+        </Grid.ColumnDefinitions>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Grid.Column="0"></Frame>
+        <Frame x:Name="InfoFrame" Grid.Column="1"></Frame>
     </Grid>
 </Window>

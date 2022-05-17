@@ -24,6 +24,7 @@ namespace ZolotoyTelenok
         {
             InitializeComponent();
             Manager.MainFrame = MainFrame;
+            Manager.InfoFrame = InfoFrame;
             Manager.MainFrame.Navigate(new MainMenu());
         }
     }

@@ -5,8 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ZolotoyTelenok"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="CarsListPage" IsVisibleChanged="Page_IsVisibleChanged">
+      d:DesignHeight="1000" d:DesignWidth="500"
+      Title="CarsListPage" IsVisibleChanged="Page_IsVisibleChanged" Width="900" Height="auto">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -40,9 +40,9 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Grid.Row="0" Width="150" Height="45" HorizontalAlignment="Left" Content="Назад" x:Name="BackBtn" Click="BackBtn_Click" ></Button>
-        <Button Grid.Row="2" Width="150" Height="45" HorizontalAlignment="Left" Content="Добавить" x:Name="AddBtn" Click="AddBtn_Click"></Button>
-        <Button Grid.Row="2" Width="150" Height="45" HorizontalAlignment="Right" Content="Удалить" x:Name="RemBtn" Click="RemBtn_Click"></Button>
+        
+        <Button Grid.Row="2" Width="150" Height="90" HorizontalAlignment="Left" Content="Добавить" x:Name="AddBtn" Click="AddBtn_Click" Style="{StaticResource NeumorphismStyle_light}"></Button>
+        <Button Grid.Row="2" Width="150" Height="90" HorizontalAlignment="Right" Content="Удалить" x:Name="RemBtn" Click="RemBtn_Click" Style="{StaticResource NeumorphismStyle_light}" ></Button>
         
 
     </Grid>

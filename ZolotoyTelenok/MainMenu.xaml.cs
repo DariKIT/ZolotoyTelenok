@@ -23,7 +23,6 @@ namespace ZolotoyTelenok
         public MainMenu()
         {
             InitializeComponent();
-            Manager.InfoFrame = InfoFrame;
         }
 
         private void CarsListPageBtn_Click(object sender, RoutedEventArgs e)
