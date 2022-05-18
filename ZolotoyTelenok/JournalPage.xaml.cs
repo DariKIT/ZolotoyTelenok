@@ -36,10 +36,7 @@ namespace ZolotoyTelenok
 
         }
 
-        private void BackBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.MainFrame.GoBack();
-        }
+       
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {

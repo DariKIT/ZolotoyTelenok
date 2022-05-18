@@ -5,16 +5,16 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ZolotoyTelenok"
       mc:Ignorable="d" 
-      d:DesignHeight="1000" d:DesignWidth="500"
-      Title="CarsListPage" IsVisibleChanged="Page_IsVisibleChanged" Width="900" Height="auto">
+      d:DesignHeight="1000" d:DesignWidth="1000"
+      Title="CarsListPage" IsVisibleChanged="Page_IsVisibleChanged">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="9*"/>
-            <RowDefinition Height="73*"/>
-            <RowDefinition Height="9*"/>
+            <RowDefinition Height="150*"/>
+            <RowDefinition Height="871*"/>
+            <RowDefinition Height="100*"/>
         </Grid.RowDefinitions>
-        <ListView x:Name="CarsList" Grid.Row="1" SelectionChanged="ListView_SelectionChanged">
+        <ListView  x:Name="CarsList" Grid.Row="1" SelectionChanged="ListView_SelectionChanged" Margin="10,10,10,10">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -25,8 +25,8 @@
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"></ColumnDefinition>
-                            <ColumnDefinition Width="200"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Марка:"></TextBlock>
@@ -35,15 +35,15 @@
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Марка}" Margin="15 0 0 0"></TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Модель}" Margin="15 0 0 0"></TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Класс}" Margin="15 0 0 0"></TextBlock>
-                        <Button Grid.RowSpan="4" Grid.Column="2" Content="Редактировать" x:Name="CarsEditBtn" Click="CarsEditBtn_Click" Margin="30 0 0 0"></Button>
+                        <Button Grid.RowSpan="4" Grid.Column="2" Content="Редактировать" x:Name="CarsEditBtn" Click="CarsEditBtn_Click" HorizontalAlignment="Right" Margin="10 0 0 0"></Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
-        <Button Grid.Row="2" Width="150" Height="90" HorizontalAlignment="Left" Content="Добавить" x:Name="AddBtn" Click="AddBtn_Click" Style="{StaticResource NeumorphismStyle_light}"></Button>
-        <Button Grid.Row="2" Width="150" Height="90" HorizontalAlignment="Right" Content="Удалить" x:Name="RemBtn" Click="RemBtn_Click" Style="{StaticResource NeumorphismStyle_light}" ></Button>
-        
+
+        <Button Grid.Row="2" Width="150" HorizontalAlignment="Left" Content="Добавить" x:Name="AddBtn" Click="AddBtn_Click" Style="{StaticResource NeumorphismStyle_light}" Margin="10"/>
+        <Button Grid.Row="2" Width="150" HorizontalAlignment="Right" Content="Удалить" x:Name="RemBtn" Click="RemBtn_Click" Style="{StaticResource NeumorphismStyle_light}" Margin="10" />
+
 
     </Grid>
 </Page>
